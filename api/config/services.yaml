@@ -32,6 +32,12 @@ services:
 
     PhoneNumberCategotization\Core\Domain\CustomerRepository:
         class:  PhoneNumberCategotization\Core\Infrastructure\Persistence\DoctrineCustomerRepository
+
+    PhoneNumberCategotization\Core\Domain\CountryFinder:
+        class:  PhoneNumberCategotization\Core\Infrastructure\FixedCountryFinder
+
+    PhoneNumberCategotization\Core\Domain\CategorizePhoneNumbers:
+        class:  PhoneNumberCategotization\Core\Domain\CategorizePhoneNumbers
     
     # GuzzleClient
     GuzzleHttp\Client:

@@ -26,8 +26,6 @@ class PhoneNumbersController extends AbstractController
      */
     public function list(Request $request, MessageBusInterface $bus): Response
     {
-        $id = $request->attributes->get('id', '');
-
         $command = new FetchCategorizedPhoneNumbers();
 
         $result = $bus->dispatch($command);
