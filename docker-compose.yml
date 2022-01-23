@@ -1,14 +1,14 @@
 version: "3.7"
 services:
-  mysql:
-    container_name: simple_payment_database
-    image: mysql:8
-    ports:
-      - 3307:3306
-    command: --default-authentication-plugin=mysql_native_password
+  db:
+    container_name: db
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./db:/root/db
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=app
+      - SQLITE3_DB=sample.db
 
   php:
     container_name: api
@@ -21,25 +21,25 @@ services:
     volumes:
       - ./api:/api
     environment:
-      - DB_SERVER=mysql
-      - DATABASE_URL=mysql
+      - DB_SERVER=db
+      - DATABASE_URL=db
       - DB_PORT=3306
       - DB_NAME=app
       - DB_USER=root
       - DB_PASSWORD=root
     depends_on:
-      - mysql
+      - db
 
   nginx:
     container_name: nginx
     image: nginx
     build:
-      context: ./app/docker/nginx
+      context: ./api/docker/nginx
       dockerfile: ./Dockerfile
     links:
       - php
     volumes:
-      - "./app/public:/var/www/app/public"
+      - "./api/public:/var/www/api/public"
     ports:
       - 8080:80
       - 444:443
