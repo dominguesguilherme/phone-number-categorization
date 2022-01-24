@@ -73,9 +73,6 @@
             "@auto-scripts"
         ],
         "test": [
-            "phpcs",
-            "phpstan analyse --memory-limit=-1",
-            "psalm",
             "phpunit"
         ],
         "lint": [

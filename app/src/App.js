@@ -43,7 +43,6 @@ const App = () => {
               (data) => {
                   setIsLoaded(true);
                   setPhoneNumbers(data);
-                  console.log(phoneNumbers)
               },
               (error) => {
                   setIsLoaded(true);
@@ -69,8 +68,6 @@ const App = () => {
             onChange={(value) => setSelectCountryOption(value[0])}
           />
         </div>
-
-        {console.log(phoneNumbers)}
 
         <div className='filter'>
           <Select

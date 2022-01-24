@@ -15,7 +15,7 @@ class Customer
     private function __construct(
         /**
          * @ORM\Id
-         * @ORM\Column(type="int")
+         * @ORM\Column(type="integer")
          */
         private int $id,
 

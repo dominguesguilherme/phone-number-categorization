@@ -1,9 +1,8 @@
 doctrine:
     dbal:
-        connections:
-            default:
-                driver: 'pdo_sqlite'
-                url: '%env(resolve:DATABASE_URL)%'
+        driver: pdo_sqlite
+        path: "%kernel.project_dir%/db/sample.db"
+
 
     orm:
         mappings:

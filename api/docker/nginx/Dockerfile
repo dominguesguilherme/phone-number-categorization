@@ -1,10 +1,3 @@
-    # ARG PHP_IMAGE=simple_payment_php
-# ARG PHP_IMAGE_TAG=latest
-
-# FROM ${PHP_IMAGE}:${PHP_IMAGE_TAG} as assets
-
-# RUN mkdir -p public
-
 FROM nginx:1.17.10-alpine
 
 COPY default.conf.template /etc/nginx/conf.d/default.conf.template

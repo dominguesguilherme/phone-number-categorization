@@ -50,21 +50,6 @@ test:
 	@echo Executando testes
 	docker-compose exec php composer test
 
-## Executa o linter.
-lint:
-	@echo Efetuando análise do código
-	docker-compose exec php composer lint
-
-## Executa o linter.
-coverage:
-	@echo Efetuando testes para exibir o relatório de coverage
-	docker-compose exec php composer coverage
-
-## Tenta corrigir os problemas de lint automáticamente.
-lint.fix:
-	@echo Efetuando correção automática do código
-	docker-compose exec php composer lint-fix
-
 ## Atualiza o composer.lock
 composer.lock:
 	@echo 🔒 Atualizando composer lock
