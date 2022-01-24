@@ -27,9 +27,12 @@ class FetchCategorizedPhoneNumbersHandlerTest extends TestCase
     }
 
     /** @dataProvider providesSuccessScenarios */
-    public function test_invoke_should_return_categorized_phone_numbers(array $expectedCategorizedNumbers): void
+    public function test_invoke_should_return_categorized_phone_numbers(
+        FetchCategorizedPhoneNumbers $command,
+        array $expectedCategorizedNumbers
+    ): void
     {
-        $categorizedNumbers = $this->handler->__invoke(new FetchCategorizedPhoneNumbers());
+        $categorizedNumbers = $this->handler->__invoke($command);
 
         $this->assertEquals($expectedCategorizedNumbers, $categorizedNumbers);
     }
@@ -37,37 +40,95 @@ class FetchCategorizedPhoneNumbersHandlerTest extends TestCase
     public function providesSuccessScenarios(): array
     {
         return [
-            'for all customers' => [
+            'for all countries with all states' => [
+                'command' => new FetchCategorizedPhoneNumbers(countryCode: null, state: null),
                 'expectedCategorizedNumbers' => [
                     [
                         'country' => 'Morocco',
                         'state' => 'NOK',
                         'country_code' => '212',
-                        'phone_number' => '(212) 6007989253'
+                        'phone_number' => '(212) 6007989253',
                     ],
                     [
                         'country' => 'Mozambique',
                         'state' => 'NOK',
                         'country_code' => '258',
-                        'phone_number' => '(258) 84330678235'
+                        'phone_number' => '(258) 84330678235',
                     ],
                     [
                         'country' => 'Uganda',
                         'state' => 'NOK',
                         'country_code' => '256',
-                        'phone_number' => '(256) 7771031454'
+                        'phone_number' => '(256) 7771031454',
                     ],
                     [
                         'country' => 'Ethiopia',
                         'state' => 'OK',
                         'country_code' => '251',
-                        'phone_number' => '(251) 914701723'
+                        'phone_number' => '(251) 914701723',
+                    ],
+                    [
+                        'country' => 'Ethiopia',
+                        'state' => 'NOK',
+                        'country_code' => '251',
+                        'phone_number' => '(251) 123914701723',
                     ],
                     [
                         'country' => 'Cameroon',
                         'state' => 'OK',
                         'country_code' => '237',
-                        'phone_number' => '(237) 677046616'
+                        'phone_number' => '(237) 677046616',
+                    ],
+                ],
+            ],
+            'for all countries with state NOK' => [
+                'command' => new FetchCategorizedPhoneNumbers(countryCode: null, state: 'NOK'),
+                'expectedCategorizedNumbers' => [
+                    [
+                        'country' => 'Morocco',
+                        'state' => 'NOK',
+                        'country_code' => '212',
+                        'phone_number' => '(212) 6007989253',
+                    ],
+                    [
+                        'country' => 'Mozambique',
+                        'state' => 'NOK',
+                        'country_code' => '258',
+                        'phone_number' => '(258) 84330678235',
+                    ],
+                    [
+                        'country' => 'Uganda',
+                        'state' => 'NOK',
+                        'country_code' => '256',
+                        'phone_number' => '(256) 7771031454',
+                    ],
+                    [
+                        'country' => 'Ethiopia',
+                        'state' => 'NOK',
+                        'country_code' => '251',
+                        'phone_number' => '(251) 123914701723',
+                    ],
+                ],
+            ],
+            'for Morocco with all states' => [
+                'command' => new FetchCategorizedPhoneNumbers(countryCode: '212', state: null),
+                'expectedCategorizedNumbers' => [
+                    [
+                        'country' => 'Morocco',
+                        'state' => 'NOK',
+                        'country_code' => '212',
+                        'phone_number' => '(212) 6007989253',
+                    ],
+                ],
+            ],
+            'for Ethiopia with state OK' => [
+                'command' => new FetchCategorizedPhoneNumbers(countryCode: '251', state: 'OK'),
+                'expectedCategorizedNumbers' => [
+                    [
+                        'country' => 'Ethiopia',
+                        'state' => 'OK',
+                        'country_code' => '251',
+                        'phone_number' => '(251) 914701723',
                     ],
                 ],
             ],
@@ -82,6 +143,7 @@ class FetchCategorizedPhoneNumbersHandlerTest extends TestCase
             Customer::create(10, 'Tanvi Sachdeva', Phone::create('(258) 84330678235')),
             Customer::create(19, 'Ogwal David', Phone::create('(256) 7771031454')),
             Customer::create(23, 'Filimon Embaye', Phone::create('(251) 914701723')),
+            Customer::create(23, 'Filimon Embaye', Phone::create('(251) 123914701723')),
             Customer::create(32, 'MICHAEL MICHAEL', Phone::create('(237) 677046616')),
         ];
     }

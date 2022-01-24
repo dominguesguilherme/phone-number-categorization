@@ -12,6 +12,8 @@ use PhoneNumberCategotization\Core\Domain\CustomerRepository;
 use PhoneNumberCategotization\Framework\Id\Domain\Id;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
+use function array_pop;
+
 class FetchCategorizedPhoneNumbersHandler implements MessageHandlerInterface
 {
     public function __construct(
@@ -25,12 +27,29 @@ class FetchCategorizedPhoneNumbersHandler implements MessageHandlerInterface
         $customers = $this->repository->findWithPagination();
 
         $dataArrayTransformed = [];
-        foreach ($customers as $customer) {
+        foreach ($customers as $key => $customer) {
             $phoneNumberCategorized = $this->categorizePhoneNumbers->categorize($customer->phone());
+
             $dataArrayTransformed[] = $this->phoneNumberCategorizedDataToArrayTransformer($phoneNumberCategorized);
+
+            if (!$this->isCountryFiltered($command->countryCode, $phoneNumberCategorized->country()->code()) ||
+                !$this->isStateFiltered($command->state, $phoneNumberCategorized->state())
+            ) {
+                array_pop($dataArrayTransformed);
+            }
         }
 
         return $dataArrayTransformed;
+    }
+
+    private function isCountryFiltered(?string $commandCountryCode, string $phoneNumberCountryCode): bool
+    {
+        return $commandCountryCode === null || $commandCountryCode === $phoneNumberCountryCode;
+    }
+
+    private function isStateFiltered(?string $commandState, string $phoneNumberState): bool
+    {
+        return $commandState === null || $commandState === $phoneNumberState;
     }
 
     /**

@@ -26,16 +26,18 @@ class PhoneNumbersController extends AbstractController
      */
     public function list(Request $request, MessageBusInterface $bus): Response
     {
-        $command = new FetchCategorizedPhoneNumbers();
+        $code = $request->query->get('code', null);
+        $state = $request->query->get('state', null);
+        $command = new FetchCategorizedPhoneNumbers($code, $state);
 
         $result = $bus->dispatch($command);
 
         $handled = $result->last(HandledStamp::class);
         assert($handled instanceof HandledStamp);
 
-        $userAsArray = $handled->getResult();
-        assert(is_array($userAsArray));
+        $phoneNumbers = $handled->getResult();
+        assert(is_array($phoneNumbers));
 
-        return new JsonResponse($userAsArray);
+        return new JsonResponse($phoneNumbers);
     }
 }
