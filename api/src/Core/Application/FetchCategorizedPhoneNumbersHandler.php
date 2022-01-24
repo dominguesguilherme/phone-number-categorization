@@ -24,7 +24,7 @@ class FetchCategorizedPhoneNumbersHandler implements MessageHandlerInterface
     /** @return array<string, string> */
     public function __invoke(FetchCategorizedPhoneNumbers $command): array
     {
-        $customers = $this->repository->findWithPagination();
+        $customers = $this->repository->findAll();
 
         $dataArrayTransformed = [];
         foreach ($customers as $key => $customer) {

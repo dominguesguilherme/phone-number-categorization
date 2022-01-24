@@ -16,7 +16,7 @@ class DoctrineCustomerRepository implements CustomerRepository
         private ObjectManager $objectManager,
     ) { }
 
-    public function findWithPagination(): array
+    public function findAll(): array
     {
         return $this->objectManager->getRepository(self::ENTITY)->findAll();
     }

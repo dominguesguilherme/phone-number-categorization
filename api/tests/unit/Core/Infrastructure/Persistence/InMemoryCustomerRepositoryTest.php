@@ -16,7 +16,7 @@ class InMemoryCustomerRepositoryTest extends TestCase
         $expextedCustomers = $this->customers();
         $repository = new InMemoryCustomerRepository($expextedCustomers);
 
-        $customersFound = $repository->findWithPagination();
+        $customersFound = $repository->findAll();
 
         $this->assertEquals($expextedCustomers, $customersFound);
     }

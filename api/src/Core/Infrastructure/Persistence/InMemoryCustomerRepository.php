@@ -14,7 +14,7 @@ class InMemoryCustomerRepository implements CustomerRepository
         private array $customers = [],
     ) { }
 
-    public function findWithPagination(): array
+    public function findAll(): array
     {
         return $this->customers;
     }

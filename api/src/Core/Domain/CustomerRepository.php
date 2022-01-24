@@ -10,5 +10,5 @@ use PhoneNumberCategotization\Framework\Id\Domain\Id;
 interface CustomerRepository
 {
     /** @return Customer[] */
-    public function findWithPagination(): array;
+    public function findAll(): array;
 }
