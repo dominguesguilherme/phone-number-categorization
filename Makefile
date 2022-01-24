@@ -48,7 +48,7 @@ logs:
 ## Executa os testes da aplicação.
 test:
 	@echo Executando testes
-	docker-compose exec php composer test
+	docker-compose exec php composer test tests/
 
 ## Atualiza o composer.lock
 composer.lock:
