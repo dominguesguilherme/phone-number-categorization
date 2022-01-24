@@ -29,6 +29,29 @@ services:
       - DB_PASSWORD=root
     depends_on:
       - db
+    networks:
+      - default
+
+  app:
+    container_name: app
+    image: app
+    stdin_open: true
+    build:
+      context: ./app/
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 3001:3000
+    volumes:
+      - './app:/app'
+      - '/app/node_modules'
+    links:
+      - php
+      - nginx
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - php
+      - nginx
 
   nginx:
     container_name: nginx
