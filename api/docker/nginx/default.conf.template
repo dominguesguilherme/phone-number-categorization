@@ -6,6 +6,7 @@ server {
     access_log /var/log/nginx/access.log;
     server_tokens off;
     client_max_body_size 5M;
+    add_header Access-Control-Allow-Origin *;
 
     location / {
         # try to serve file directly, fallback to front controller
