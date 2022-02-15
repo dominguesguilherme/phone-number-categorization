@@ -50,7 +50,7 @@ test:
 	@echo Executando testes
 	docker-compose exec php composer test tests/
 
-## Atualiza o composer.lock
+## Atualiza o composer .lock
 composer.lock:
 	@echo 🔒 Atualizando composer lock
 	docker-compose exec php composer update --lock
